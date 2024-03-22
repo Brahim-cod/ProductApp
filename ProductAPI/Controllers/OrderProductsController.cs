@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Repository.Models;
 using Services.ModelsDto;
 using Services.Services;
@@ -7,6 +8,7 @@ namespace ProductAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class OrderProductsController : ControllerBase
 {
     private readonly IOrderProductService _orderProductService;

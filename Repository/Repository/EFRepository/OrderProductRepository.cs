@@ -31,7 +31,10 @@ public class OrderProductRepository : IRepository<OrderProduct, (int, int)>
 
     public async Task<IReadOnlyCollection<OrderProduct>> GetAllAsync()
     {
-        return await _dbContext.OrderProducts.ToListAsync();
+        return await _dbContext.OrderProducts
+            .Include(op => op.Product)
+            .Include(op => op.Order)
+            .ToListAsync();
     }
 
     public async Task<IReadOnlyCollection<OrderProduct>> GetAllAsync(Expression<Func<OrderProduct, bool>> filter)
@@ -45,7 +48,10 @@ public class OrderProductRepository : IRepository<OrderProduct, (int, int)>
     [return: MaybeNull]
     public async Task<OrderProduct> GetAsync(Expression<Func<OrderProduct, bool>> filter)
     {
-        return await _dbContext.OrderProducts.FirstOrDefaultAsync(filter);
+        return await _dbContext.OrderProducts
+            .Include(op => op.Order)
+            .Include(op => op.Product)
+            .FirstOrDefaultAsync(filter);
     }
 
     public async Task RemoveAsync(OrderProduct entity)

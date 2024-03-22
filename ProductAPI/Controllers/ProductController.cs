@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.ModelsDto;
 using Services.Services;
 
@@ -6,6 +7,7 @@ namespace ProductAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -80,7 +82,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            _productService.Remove(id);
+            await _productService.Remove(id);
             return NoContent();
         }
         catch (Exception ex)
@@ -94,7 +96,7 @@ public class ProductController : ControllerBase
     {
         try
         {
-            _productService.Update(entity);
+            await _productService.Update(entity);
             return NoContent();
         }
         catch (Exception ex)

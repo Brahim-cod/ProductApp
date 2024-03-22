@@ -72,6 +72,7 @@ public class AutoMapperProfiles : Profile
                dest => dest.ProductCategoryName,
                src => src.MapFrom(x => x.Category.Name)
            );
+           
 
         CreateMap<UpdateProductDto, Product>()
             .ForMember(

@@ -8,7 +8,7 @@ namespace Services.Services
         Task<IReadOnlyCollection<ProductDto>> GetAll();
         Task<IReadOnlyCollection<ProductDto>> GetAllByName(string name);
         Task<ProductDto> GetByID(int id);
-        void Remove(int id);
-        void Update(UpdateProductDto entity);
+        Task Remove(int id);
+        Task Update(UpdateProductDto entity);
     }
 }

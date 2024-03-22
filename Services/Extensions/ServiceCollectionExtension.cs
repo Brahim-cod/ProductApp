@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Repository.Models;
 using Services.Services;
 using System.Reflection;
 
@@ -12,6 +13,7 @@ public static class ServiceCollectionExtension
         services.AddScoped<ICategoryService, CategoryService>();
         services.AddScoped<IOrderProductService, OrderProductService>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+       
         return services;
     }
 }

@@ -31,12 +31,12 @@ public class ProductRepository : IRepository<Product, int>
         return entity;
     }
 
-    public async Task<IReadOnlyCollection<Product>> GetAllAsync() => await _dbContext.Products.ToListAsync();
+    public async Task<IReadOnlyCollection<Product>> GetAllAsync() => await _dbContext.Products.Include(p => p.Category).ToListAsync();
 
-    public async Task<IReadOnlyCollection<Product>> GetAllAsync(Expression<Func<Product, bool>> filter) => await _dbContext.Products.Where(filter).ToListAsync();
+    public async Task<IReadOnlyCollection<Product>> GetAllAsync(Expression<Func<Product, bool>> filter) => await _dbContext.Products.Include(p => p.Category).Where(filter).ToListAsync();
 
     [return: MaybeNull]
-    public async Task<Product> GetAsync(Expression<Func<Product, bool>> filter) => await _dbContext.Products.FirstOrDefaultAsync(filter);
+    public async Task<Product> GetAsync(Expression<Func<Product, bool>> filter) => await _dbContext.Products.Include(p => p.Category).FirstOrDefaultAsync(filter);
 
     public async Task RemoveAsync(Product entity)
     {
@@ -49,7 +49,8 @@ public class ProductRepository : IRepository<Product, int>
         if (entity == null) { throw new ArgumentNullException(nameof(entity)); }
 
         // Find the tracked entity in the context by its primary key
-        var trackedEntity = await GetAsync(product => product.Equals(entity));
+        var trackedEntity = _dbContext.Products.FirstOrDefault(product => product.Id == entity.Id);
+        //var trackedEntity = await GetAsync((product => product.Id == entity.Id));
 
         if (trackedEntity == null)
         {
@@ -57,7 +58,9 @@ public class ProductRepository : IRepository<Product, int>
         }
 
         // Update properties of the tracked entity with the new values
-        _dbContext.Entry(trackedEntity).CurrentValues.SetValues(entity);
+         _dbContext.Entry(trackedEntity).CurrentValues.SetValues(entity);
+
+        //_dbContext.Update(trackedEntity);
 
         //await _dbContext.SaveChangesAsync();
     }

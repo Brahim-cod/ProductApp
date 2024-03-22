@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Services.ModelsDto;
 using Services.Services;
 
@@ -6,6 +7,7 @@ namespace ProductAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class CategoriesController : ControllerBase
 {
     private readonly ICategoryService _categoryService;
@@ -15,6 +17,7 @@ public class CategoriesController : ControllerBase
         _categoryService = categoryService;
     }
 
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IReadOnlyCollection<CategoryDto>>> GetAll()
     {

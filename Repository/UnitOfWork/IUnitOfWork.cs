@@ -17,5 +17,5 @@ public interface IUnitOfWork : IDisposable
     IRepository<Order, int> Orders { get; }
     IRepository<OrderProduct, (int, int)> OrderProducts { get; }
 
-    Task<int> CompleteAsync();
+    Task CompleteAsync();
 }

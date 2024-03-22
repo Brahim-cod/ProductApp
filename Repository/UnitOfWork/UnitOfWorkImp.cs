@@ -34,9 +34,9 @@ public class UnitOfWorkImp : IUnitOfWork
     public IRepository<Order, int> Orders { get; }
     public IRepository<OrderProduct, (int, int)> OrderProducts { get; }
 
-    public async Task<int> CompleteAsync()
+    public async Task CompleteAsync()
     {
-        return await _context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
     }
 
     public void Dispose()

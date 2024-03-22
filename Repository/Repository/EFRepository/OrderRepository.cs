@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Repository.Context;
+using Repository.Extensions;
 using Repository.Models;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,8 @@ public class OrderRepository : IRepository<Order, int>
         if (entity == null) { throw new ArgumentNullException(nameof(entity)); }
 
         await _dbContext.Orders.AddAsync(entity);
-        //await _dbContext.SaveChangesAsync();
+
+        await _dbContext.SaveChangesAsync();
 
         return entity;
     }

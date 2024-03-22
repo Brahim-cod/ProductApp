@@ -1,4 +1,6 @@
+using Microsoft.AspNetCore.Identity;
 using Repository.Extensions;
+using Repository.Models;
 using Services.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddServiceLayer()
     .AddRepositoryLayer(builder.Configuration);
 
+builder.Services.AddAuthentication()
+    .AddBearerToken(IdentityConstants.BearerScheme);
+
+builder.Services.AddAuthorization();
+
+builder.Services.AddIdentityCore<AppUser>()
+    .AddApiEndpoints();
+
+
+
 var app = builder.Build();
+
+app.MapIdentityApi<AppUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -18,9 +18,18 @@ public static class ServiceCollectionExtension
         services.AddScoped<IRepository<Order, int>, OrderRepository>();
         services.AddScoped<IRepository<OrderProduct, (int, int)>, OrderProductRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkImp>();
-        services.AddDbContext<AppDbContext>(option =>
-            option.UseSqlServer(configuration.GetConnectionString("SqlSeverConnection"))
+        
+
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(configuration.GetConnectionString("SqlSeverConnection")),
+            ServiceLifetime.Scoped
         );
+
+
+
+        services.AddIdentityCore<AppUser>()
+            .AddEntityFrameworkStores<AppDbContext>();
+
         return services;
     }
 }
