@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Repository.Models;
 
-public class Category
+public class Category : IEquatable<Category>
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -12,7 +12,7 @@ public class Category
     [Required]
     public string Name { get; set; }
 
-    public List<Product> Products { get; set; }
+    public ICollection<Product> Products { get; set; }
 
     public override bool Equals(object? obj)
     {

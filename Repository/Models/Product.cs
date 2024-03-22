@@ -22,6 +22,8 @@ public class Product : IEquatable<Product>
     [Required]
     public int CategoryId { get; set; }
     public Category Category { get; set; }
+    public ICollection<OrderProduct> OrderProducts { get; set; }
+
 
     public override bool Equals(object? obj)
     {

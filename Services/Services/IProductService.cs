@@ -1,15 +1,14 @@
 ﻿using Services.ModelsDto;
-using System.Diagnostics.CodeAnalysis;
 
-namespace Services.Services;
-
-public interface IProductService
+namespace Services.Services
 {
-    ProductDto Create(CreateProductDto entity);
-    IReadOnlyCollection<ProductDto> GetAll();
-    IReadOnlyCollection<ProductDto> GetAllByName();
-    [return: MaybeNull]
-    ProductDto GetByID();
-    void Remove(int id);
-    void Update(UpdateProductDto entity);
+    public interface IProductService
+    {
+        Task<ProductDto> Create(CreateProductDto entity);
+        Task<IReadOnlyCollection<ProductDto>> GetAll();
+        Task<IReadOnlyCollection<ProductDto>> GetAllByName(string name);
+        Task<ProductDto> GetByID(int id);
+        void Remove(int id);
+        void Update(UpdateProductDto entity);
+    }
 }

@@ -15,6 +15,8 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IRepository<Product, int>, ProductRepository>();
         services.AddScoped<IRepository<Category, int>, CategoryRepository>();
+        services.AddScoped<IRepository<Order, int>, OrderRepository>();
+        services.AddScoped<IRepository<OrderProduct, (int, int)>, OrderProductRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWorkImp>();
         services.AddDbContext<AppDbContext>(option =>
             option.UseSqlServer(configuration.GetConnectionString("SqlSeverConnection"))
