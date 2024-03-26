@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Repository.Models;
 using Services.Services;
+using Shared.Services;
 using System.Reflection;
 
 namespace Services.Extensions;

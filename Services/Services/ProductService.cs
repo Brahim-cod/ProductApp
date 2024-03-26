@@ -2,7 +2,8 @@
 using Repository.Models;
 using Repository.Repository;
 using Repository.UnitOfWork;
-using Services.ModelsDto;
+using Shared.ModelsDto;
+using Shared.Services;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Services.Services;
@@ -43,18 +44,22 @@ public class ProductService : IProductService
         return _mapper.Map<ProductDto>(product);
     }
 
-    public async Task Remove(int id)
+    public async Task<bool> Remove(int id)
     {
         var product = await _unitOfWork.Products.GetAsync((product => product.Id.Equals(id)));
-        await _unitOfWork.Products.RemoveAsync(product);
-        await _unitOfWork.CompleteAsync();
+        if (product != null)
+        {
+            await _unitOfWork.Products.RemoveAsync(product);
+            await _unitOfWork.CompleteAsync();
+            return true;
+        }
+        return false;
     }
 
-    public async Task Update(UpdateProductDto entity)
+    public async Task<bool> Update(UpdateProductDto entity)
     {
         await _unitOfWork.Products.UpdateAsync(_mapper.Map<Product>(entity));
         await _unitOfWork.CompleteAsync();
-
-
+        return true;
     }
 }

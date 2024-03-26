@@ -60,8 +60,6 @@ public class ProductRepository : IRepository<Product, int>
         // Update properties of the tracked entity with the new values
          _dbContext.Entry(trackedEntity).CurrentValues.SetValues(entity);
 
-        //_dbContext.Update(trackedEntity);
-
         //await _dbContext.SaveChangesAsync();
     }
 }

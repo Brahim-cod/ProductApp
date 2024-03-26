@@ -1,6 +1,6 @@
-﻿using Services.ModelsDto;
+﻿using Shared.ModelsDto;
 
-namespace Services.Services;
+namespace Shared.Services;
 
 public interface IOrderProductService
 {

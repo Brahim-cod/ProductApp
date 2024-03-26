@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.ModelsDto;
-using Services.Services;
+using Shared.ModelsDto;
+using Shared.Services;
 
 namespace ProductAPI.Controllers;
 

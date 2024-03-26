@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.ModelsDto;
+namespace Shared.ModelsDto;
 
 public class OrderProductDto
 {

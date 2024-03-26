@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Repository.UnitOfWork;
-using Services.ModelsDto;
+using Shared.ModelsDto;
+using Shared.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Services.ModelsDto;
-using Services.Services;
+using Shared.ModelsDto;
+using Shared.Services;
 
 namespace ProductAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize]
+//[Authorize]
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
@@ -91,8 +91,8 @@ public class ProductController : ControllerBase
         }
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, UpdateProductDto entity)
+    [HttpPut]
+    public async Task<IActionResult> Update(UpdateProductDto entity)
     {
         try
         {

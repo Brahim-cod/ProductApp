@@ -4,7 +4,8 @@ using Microsoft.VisualBasic;
 using Repository.Models;
 using Repository.UnitOfWork;
 using Services.Extensions;
-using Services.ModelsDto;
+using Shared.ModelsDto;
+using Shared.Services;
 
 namespace Services.Services;
 
