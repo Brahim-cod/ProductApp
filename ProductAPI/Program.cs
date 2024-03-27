@@ -14,6 +14,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddServiceLayer()
     .AddRepositoryLayer(builder.Configuration);
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("blazorApp",
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:5216")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+        }
+    );
+});
+
 builder.Services.AddAuthentication()
     .AddBearerToken(IdentityConstants.BearerScheme);
 
@@ -23,7 +36,7 @@ builder.Services.AddIdentityCore<AppUser>()
     .AddApiEndpoints();
 
 
-
+    
 var app = builder.Build();
 
 app.MapIdentityApi<AppUser>();
@@ -40,5 +53,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("blazorApp");
 
 app.Run();

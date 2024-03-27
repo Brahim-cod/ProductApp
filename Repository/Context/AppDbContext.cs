@@ -29,8 +29,10 @@ public class AppDbContext : IdentityDbContext<AppUser>
 
 
         modelBuilder.Entity<Category>().HasData(
-            new Category { Id = 1, Name = "Category 1" },
-            new Category { Id = 2, Name = "Category 2" });
+            new Category { Id = 1, Name = "Category 1", ImageUrl = "Image 1" },
+            new Category { Id = 2, Name = "Category 2", ImageUrl = "Image 2" },
+            new Category { Id = 3, Name = "Category 3", ImageUrl = "Image 3" },
+            new Category { Id = 4, Name = "Category 4", ImageUrl = "Image 4" });
 
         modelBuilder.Entity<Product>().HasData(
             new Product { Id = 1, Name = "Product 1", Description = "Description 1", Image = "Image 1", Price = 10.99, Quantity = 100, CategoryId = 1 },

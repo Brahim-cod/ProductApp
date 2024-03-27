@@ -64,18 +64,31 @@ public class ProductController : ControllerBase
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<IReadOnlyCollection<ProductDto>>> GetAllByName([FromQuery] string name)
+    public async Task<ActionResult<IReadOnlyCollection<ProductDto>>> SearchProducts([FromQuery] string? name, [FromQuery] int? categoryID)
     {
         try
         {
-            var products = await _productService.GetAllByName(name);
-            return Ok(products);
+            if (!string.IsNullOrEmpty(name))
+            {
+                var products = await _productService.GetAllByName(name);
+                return Ok(products);
+            }
+            else if (categoryID.HasValue)
+            {
+                var products = await _productService.GetAllByCategory(categoryID.Value);
+                return Ok(products);
+            }
+            else
+            {
+                return BadRequest("Either name or categoryID must be provided.");
+            }
         }
         catch (Exception ex)
         {
             return BadRequest($"An error occurred: {ex.Message}");
         }
     }
+
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Remove(int id)

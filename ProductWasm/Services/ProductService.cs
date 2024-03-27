@@ -4,6 +4,7 @@ using Shared.Services;
 using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
+using System.Xml.Linq;
 
 namespace ProductWasm.Services;
 
@@ -63,13 +64,22 @@ public class ProductService : IProductService
 
     }
 
-    public async Task<IReadOnlyCollection<ProductDto>?> GetAllByName(string name)
+    public async Task<IReadOnlyCollection<ProductDto>> GetAllByCategory(int categoryID)
     {
-        var apiResponse = await _http.GetStreamAsync($"api/Product/{name}");
+        var apiResponse = await _http.GetStreamAsync($"api/Product/search?categoryID={categoryID}");
 
         var products = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<ProductDto>>(apiResponse, _serializerOptions);
         return products;
     }
+
+    public async Task<IReadOnlyCollection<ProductDto>?> GetAllByName(string name)
+    {
+        var apiResponse = await _http.GetStreamAsync($"api/Product/search?name={name}");
+
+        var products = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<ProductDto>>(apiResponse, _serializerOptions);
+        return products;
+    }
+
 
     public async Task<ProductDto?> GetByID(int id)
     {

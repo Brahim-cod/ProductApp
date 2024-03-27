@@ -31,6 +31,12 @@ public class ProductService : IProductService
         return list.Select(_mapper.Map<ProductDto>).ToList();
     }
 
+    public async Task<IReadOnlyCollection<ProductDto>> GetAllByCategory(int categoryID)
+    {
+        var list = await _unitOfWork.Products.GetAllAsync((product => product.CategoryId == categoryID));
+        return list.Select(_mapper.Map<ProductDto>).ToList();
+    }
+
     public async Task<IReadOnlyCollection<ProductDto>> GetAllByName(string name)
     {
         var list = await _unitOfWork.Products.GetAllAsync((product => product.Name.Contains(name.Trim())));

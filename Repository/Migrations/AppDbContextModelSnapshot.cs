@@ -228,6 +228,10 @@ namespace Repository.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -240,12 +244,26 @@ namespace Repository.Migrations
                         new
                         {
                             Id = 1,
+                            ImageUrl = "Image 1",
                             Name = "Category 1"
                         },
                         new
                         {
                             Id = 2,
+                            ImageUrl = "Image 2",
                             Name = "Category 2"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            ImageUrl = "Image 3",
+                            Name = "Category 3"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            ImageUrl = "Image 4",
+                            Name = "Category 4"
                         });
                 });
 
@@ -272,13 +290,13 @@ namespace Repository.Migrations
                         {
                             Id = 1,
                             Amount = 150.0,
-                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 22, 10, 38, 45, 886, DateTimeKind.Unspecified).AddTicks(5390), new TimeSpan(0, 0, 0, 0, 0))
+                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 27, 10, 3, 56, 530, DateTimeKind.Unspecified).AddTicks(3064), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2,
                             Amount = 100.0,
-                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 21, 10, 38, 45, 886, DateTimeKind.Unspecified).AddTicks(5393), new TimeSpan(0, 0, 0, 0, 0))
+                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 26, 10, 3, 56, 530, DateTimeKind.Unspecified).AddTicks(3067), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
