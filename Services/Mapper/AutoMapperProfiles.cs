@@ -69,6 +69,10 @@ public class AutoMapperProfiles : Profile
                src => src.MapFrom(x => x.Quantity)
            )
            .ForMember(
+               dest => dest.ProductCategoryID,
+               src => src.MapFrom(x => x.CategoryId)
+           )
+           .ForMember(
                dest => dest.ProductCategoryName,
                src => src.MapFrom(x => x.Category.Name)
            );

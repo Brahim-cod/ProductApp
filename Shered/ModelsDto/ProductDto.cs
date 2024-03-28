@@ -10,5 +10,6 @@ public class ProductDto
     public string ProductImage { get; set; }
     public double ProductPrice { get; set; }
     public int ProductQuantity { get; set; }
+    public int ProductCategoryID { get; set; }
     public string ProductCategoryName { get; set; }
 }
