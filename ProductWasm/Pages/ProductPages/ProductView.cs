@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using ProductWasm.Extensions;
+using ProductWasm.Services;
+using ProductWasm.Services.Abstract;
 using Shared.ModelsDto;
 using Shared.Services;
 
@@ -7,29 +8,34 @@ namespace ProductWasm.Pages.ProductPages;
 
 public partial class ProductView
 {
+    [Parameter]
+    public int? ProductID { get; set; }
     [Inject]
-    private IProductService _productService { get; set; }
+    private IProductService _productService {  get; set; }
     [Inject]
-    private NavigationManager NavManager { get; set; }
-    public IEnumerable<ProductDto> _products { get; set; } = new List<ProductDto>();
+    private ICartService _cartService { get; set; }
+
+    public ProductDto Product { get; set; } = null;
+
+    string disabledCursor = "cursor-not-allowed opacity-50";
+
 
     protected async override Task OnInitializedAsync()
     {
-        if(NavManager.TryGetQueryString<string>("name", out string name))
+        if (ProductID.HasValue)
         {
-            _products = await _productService.GetAllByName(name);
-        }
-        else
-        {
-            if (NavManager.TryGetQueryString<int>("categoryID", out int categoryID))
+            var product = await _productService.GetByID(ProductID.Value);
+            if (product != null)
             {
-                _products = await _productService.GetAllByCategory(categoryID);
-            }
-            else
-            {
-                _products = await _productService.GetAll();
+                Product = product;
             }
         }
+    }
 
+    private void AddToCart()
+    {
+        // Add logic to add the selected product to the cart
+        // For demonstration, let's assume there's a CartService to handle cart operations
+        _cartService.AddToCart(Product);
     }
 }
