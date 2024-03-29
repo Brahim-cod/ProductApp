@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Servic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductAPI", "ProductAPI\ProductAPI.csproj", "{50DC3C26-D163-433C-8C41-FE6C2CA4FCB9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductWasm", "ProductWasm\ProductWasm.csproj", "{790E6216-0F29-4E02-A74E-D8F0BADB61B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductWasm", "ProductWasm\ProductWasm.csproj", "{790E6216-0F29-4E02-A74E-D8F0BADB61B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shered", "Shered\Shered.csproj", "{BABFA099-7C0F-4032-B90C-17F6A2D17151}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Shered", "Shered\Shered.csproj", "{BABFA099-7C0F-4032-B90C-17F6A2D17151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
