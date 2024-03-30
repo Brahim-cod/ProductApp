@@ -64,6 +64,7 @@ public partial class Product
         if (result != null)
         {
             // Product created successfully, redirect or show success message
+
         }
         else
         {
