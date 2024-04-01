@@ -27,19 +27,17 @@ builder.Services.AddCors(options =>
     );
 });
 
-builder.Services.AddAuthentication()
-    .AddBearerToken(IdentityConstants.BearerScheme);
+//builder.Services.AddAuthentication()
+//    .AddBearerToken(IdentityConstants.BearerScheme);
 
-builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization();
 
-builder.Services.AddIdentityCore<AppUser>()
-    .AddApiEndpoints();
+//builder.Services.AddIdentityCore<AppUser>()
+//    .AddApiEndpoints();
 
 
     
 var app = builder.Build();
-
-app.MapIdentityApi<AppUser>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -49,6 +47,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Repository.Models;
 using Shared.ModelsDto;
+using Shered.ModelsDto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -123,5 +124,9 @@ public class AutoMapperProfiles : Profile
             .ReverseMap();
         #endregion
 
+        #region UserMapping
+        CreateMap<AppUser, RegisterDto>()
+            .ReverseMap();
+        #endregion
     }
 }

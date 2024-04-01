@@ -14,6 +14,9 @@ public partial class Product
     public int? ProductId { get; set; }
     public ProductDto productDto { get; set; } = new ProductDto();
     private IEnumerable<CategoryDto> _categories = new List<CategoryDto>();
+    [Inject]
+    private NavigationManager NavManager { get; set; }
+
     protected override async Task OnParametersSetAsync()
     {
         if (ProductId.HasValue)
@@ -64,7 +67,7 @@ public partial class Product
         if (result != null)
         {
             // Product created successfully, redirect or show success message
-
+            NavManager.NavigateTo($"/productAdmin");
         }
         else
         {
@@ -88,6 +91,7 @@ public partial class Product
         if (success)
         {
             // Product updated successfully, redirect or show success message
+            NavManager.NavigateTo($"/productAdmin");
         }
         else
         {

@@ -1,11 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using Repository.Context;
 using Repository.Models;
 using Repository.Repository;
 using Repository.Repository.EFRepository;
 using Repository.UnitOfWork;
+using System.Text;
 
 namespace Repository.Extensions;
 
@@ -26,9 +30,33 @@ public static class ServiceCollectionExtension
         );
 
 
+        //Auth Config Identity
+        services.AddIdentity<AppUser, IdentityRole>()
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddSignInManager()
+            .AddRoles<IdentityRole>();
 
-        services.AddIdentityCore<AppUser>()
-            .AddEntityFrameworkStores<AppDbContext>();
+
+        //Jwt
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true,
+                ValidIssuer = configuration["Jwt:Issuer"],
+                ValidAudience = configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]!))
+            };
+        });
 
         return services;
     }

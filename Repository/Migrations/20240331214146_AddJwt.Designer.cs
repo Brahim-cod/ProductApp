@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Repository.Context;
 
@@ -11,9 +12,11 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240331214146_AddJwt")]
+    partial class AddJwt
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -174,14 +177,6 @@ namespace Repository.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -298,13 +293,13 @@ namespace Repository.Migrations
                         {
                             Id = 1,
                             Amount = 399.89999999999998,
-                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 31, 21, 49, 26, 932, DateTimeKind.Unspecified).AddTicks(3218), new TimeSpan(0, 0, 0, 0, 0))
+                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 31, 21, 41, 45, 524, DateTimeKind.Unspecified).AddTicks(7169), new TimeSpan(0, 0, 0, 0, 0))
                         },
                         new
                         {
                             Id = 2,
                             Amount = 119.98,
-                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 30, 21, 49, 26, 932, DateTimeKind.Unspecified).AddTicks(3225), new TimeSpan(0, 0, 0, 0, 0))
+                            CreateAt = new DateTimeOffset(new DateTime(2024, 3, 30, 21, 41, 45, 524, DateTimeKind.Unspecified).AddTicks(7173), new TimeSpan(0, 0, 0, 0, 0))
                         });
                 });
 
