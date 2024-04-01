@@ -126,7 +126,8 @@ public class UserService : IUserService
         var userClaims = new[]
         {
             new Claim(ClaimTypes.NameIdentifier, user.Id),
-            new Claim(ClaimTypes.Name, $"{user.FirstName} {user.LastName}"),
+            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.GivenName, $"{user.FirstName} {user.LastName}"),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Role, role)
         };

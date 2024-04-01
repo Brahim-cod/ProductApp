@@ -11,4 +11,9 @@ public interface IUserService
 {
     Task<UserDto> Register(RegisterDto user);
     Task<UserDto> Login(LoginDto login);
+    async Task Logout()
+    {
+        
+    }
 }
+    

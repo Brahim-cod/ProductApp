@@ -16,6 +16,7 @@ namespace ProductWasm.Services;
 
 public class UserService : IUserService
 {
+    private const string AUTHKEY = "authToken";
     private readonly HttpClient _http;
     private readonly JsonSerializerOptions _serializerOptions;
     private readonly AuthenticationStateProvider _authenticationStateProvider;
@@ -44,7 +45,7 @@ public class UserService : IUserService
             var resBody = await response.Content.ReadAsStreamAsync();
             var user = await JsonSerializer.DeserializeAsync<UserDto>(resBody, _serializerOptions);
 
-            await JSRuntime.InvokeVoidAsync("localStorage.setItem", "authToken", user.Token);
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", AUTHKEY, user.Token);
 
             ((AuthStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(user.Email);
             _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", user.Token);
@@ -80,5 +81,11 @@ public class UserService : IUserService
             throw;
         }
        
+    }
+    public async Task Logout()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", AUTHKEY);
+        ((AuthStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
+        _http.DefaultRequestHeaders.Authorization = null;
     }
 }
