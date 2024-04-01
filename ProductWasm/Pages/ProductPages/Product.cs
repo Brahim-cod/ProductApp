@@ -27,7 +27,6 @@ public partial class Product
                 productDto = product;
             }
         }
-        
     }
 
     protected override async Task OnInitializedAsync()

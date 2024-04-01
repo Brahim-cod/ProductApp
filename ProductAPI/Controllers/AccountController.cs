@@ -6,11 +6,11 @@ namespace ProductAPI.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AccountContoller : ControllerBase
+public class AccountController : ControllerBase
 {
     private readonly IUserService _userService;
 
-    public AccountContoller(IUserService userService)
+    public AccountController(IUserService userService)
     {
         _userService = userService;
     }
@@ -34,8 +34,8 @@ public class AccountContoller : ControllerBase
     {
         try
         {
-            var token = await _userService.Login(loginDto);
-            return Ok(new { Token = token });
+            var loguser = await _userService.Login(loginDto);
+            return Ok(loguser);
         }
         catch (Exception ex)
         {

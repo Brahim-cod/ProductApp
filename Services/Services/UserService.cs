@@ -31,7 +31,7 @@ public class UserService : IUserService
         _mapper = mapper;
     }
 
-    public async Task<string> Login(LoginDto login)
+    public async Task<UserDto> Login(LoginDto login)
     {
         var getUser = await _userManager.FindByEmailAsync(login.Email);
         if (getUser is null)
@@ -46,7 +46,9 @@ public class UserService : IUserService
         var getRoles = await _userManager.GetRolesAsync(getUser);
         var token = GenerateToken(getUser, getRoles.First());
 
-        return token;
+
+
+        return MapToUserDto(getUser, token, getRoles.First());
 
     }
 

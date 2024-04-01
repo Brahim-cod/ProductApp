@@ -10,5 +10,5 @@ namespace Shered.Services;
 public interface IUserService
 {
     Task<UserDto> Register(RegisterDto user);
-    Task<string> Login(LoginDto login);
+    Task<UserDto> Login(LoginDto login);
 }
