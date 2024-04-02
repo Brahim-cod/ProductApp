@@ -23,6 +23,7 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<ICartService, CartService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IOrderProductService, OrderProductService>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
 

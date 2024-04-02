@@ -65,5 +65,8 @@ public class CartService : ICartService
         await JSRuntime.InvokeVoidAsync("localStorage.setItem", CartKey, cartJson);
     }
 
-    
+    public async Task RemoveAllFromCart()
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.removeItem", CartKey);
+    }
 }
