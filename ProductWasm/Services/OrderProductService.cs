@@ -1,5 +1,7 @@
-﻿using Shared.ModelsDto;
+﻿using Microsoft.JSInterop;
+using Shared.ModelsDto;
 using Shared.Services;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
@@ -9,14 +11,16 @@ public class OrderProductService : IOrderProductService
 {
     private readonly HttpClient _http;
     private readonly JsonSerializerOptions _serializerOptions;
+    private readonly IJSRuntime _JSRuntime;
 
-    public OrderProductService(HttpClient http)
+    public OrderProductService(HttpClient http, IJSRuntime jSRuntime)
     {
         _http = http;
         _serializerOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
         };
+        _JSRuntime = jSRuntime;
     }
     public async Task<OrderProductDto?> CreateOrderProductAsync(IEnumerable<CreateOrderProductDto> orderProducts)
     {
@@ -24,7 +28,11 @@ public class OrderProductService : IOrderProductService
         {
             var orderJson = new StringContent(JsonSerializer.Serialize(orderProducts), Encoding.UTF8, "application/json");
 
-            var res = await _http.PostAsync("api/OrderProducts", orderJson);
+            var token = await _JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var res = await _http.PostAsync("api/OrderProducts/create", orderJson);
 
             if (!res.IsSuccessStatusCode)
             {
@@ -65,7 +73,7 @@ public class OrderProductService : IOrderProductService
         {
             var ordersJson = new StringContent(JsonSerializer.Serialize(updatedOrderProducts), Encoding.UTF8, "application/json");
 
-            var res = await _http.PutAsync($"api/OrderProducts", ordersJson);
+            var res = await _http.PutAsync($"api/OrderProducts/update/{orderId}", ordersJson);
 
             if (!res.IsSuccessStatusCode)
             {

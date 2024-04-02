@@ -26,6 +26,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IOrderProductService, OrderProductService>();
 builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
 
+builder.Services.AddSingleton<CurrentOrder>();
+
 
 
 

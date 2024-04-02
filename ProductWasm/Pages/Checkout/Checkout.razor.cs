@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using ProductWasm.Helpers;
 using ProductWasm.Services.Abstract;
 using Shared.ModelsDto;
 using Shared.Services;
@@ -13,6 +14,8 @@ public partial class Checkout
     private ICartService _cartService { get; set; }
     [Inject]
     private NavigationManager _navigationManager { get; set; }
+    [Inject]
+    private CurrentOrder CurrentOrder { get; set; }
     private List<(ProductDto, int)> _products { get; set; } = new List<(ProductDto, int)>();
     private double Total { get; set; } = 0;
 
@@ -41,9 +44,12 @@ public partial class Checkout
     {
         var orders = _products.Select(p => new CreateOrderProductDto() { ProductId = p.Item1.ProductID, Quantity = p.Item2 });
         var order = await _orderService.CreateOrderProductAsync(orders);
-
-        Console.WriteLine(order);
-        await _cartService.RemoveAllFromCart();
-        _navigationManager.NavigateTo("/");
+        if (order != null) 
+        {
+            await _cartService.RemoveAllFromCart();
+            CurrentOrder.CurrentOrderDto = order;
+            _navigationManager.NavigateTo($"/orderconfirmation");
+        }
+        
     }
 }
