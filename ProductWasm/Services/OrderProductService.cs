@@ -1,6 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using Shared.ModelsDto;
 using Shared.Services;
+using System.Net;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -22,15 +23,19 @@ public class OrderProductService : IOrderProductService
         };
         _JSRuntime = jSRuntime;
     }
+    private async Task AddAuthorization()
+    {
+        var token = await _JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
+
+        _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+    }
     public async Task<OrderProductDto?> CreateOrderProductAsync(IEnumerable<CreateOrderProductDto> orderProducts)
     {
         try
         {
             var orderJson = new StringContent(JsonSerializer.Serialize(orderProducts), Encoding.UTF8, "application/json");
 
-            var token = await _JSRuntime.InvokeAsync<string>("localStorage.getItem", "authToken");
-
-            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            AddAuthorization();
 
             var res = await _http.PostAsync("api/OrderProducts/create", orderJson);
 
@@ -54,6 +59,8 @@ public class OrderProductService : IOrderProductService
     {
         try
         {
+            AddAuthorization();
+
             var apiResponse = await _http.GetStreamAsync("api/OrderProducts");
 
             var orders = await JsonSerializer.DeserializeAsync<IReadOnlyCollection<OrderProductDto>>(apiResponse, _serializerOptions);
@@ -72,6 +79,8 @@ public class OrderProductService : IOrderProductService
         try
         {
             var ordersJson = new StringContent(JsonSerializer.Serialize(updatedOrderProducts), Encoding.UTF8, "application/json");
+
+            AddAuthorization();
 
             var res = await _http.PutAsync($"api/OrderProducts/update/{orderId}", ordersJson);
 

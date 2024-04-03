@@ -5,13 +5,15 @@ using Shered.Services;
 
 namespace ProductWasm.Pages.UserPages;
 
-public partial class Login
+public partial class Register
 {
     [Inject]
-    private IUserService _userService {  get; set; }
-    private LoginDto LoginDto { get; set; } = new LoginDto();
+    private IUserService userService {  get; set; }
     [Inject]
-    private NavigationManager _navManager {  get; set; }
+    private NavigationManager navigationManager { get; set; }
+
+    private RegisterDto RegisterDto { get; set; } = new RegisterDto() { Role = "Customer" };
+
     [Inject]
     private AuthenticationStateProvider _authenticationStateProvider { get; set; }
     protected async override void OnInitialized()
@@ -23,15 +25,16 @@ public partial class Login
         // If user is authenticated, redirect to homepage ("/")
         if (isAuthenticated)
         {
-            _navManager.NavigateTo("/");
+            navigationManager.NavigateTo("/");
         }
     }
+
     private async Task HandleValidSubmit()
     {
-        var res = await _userService.Login(LoginDto);
-        if (res != null)
+        var user = await userService.Register(RegisterDto);
+        if (user != null)
         {
-            _navManager.Refresh();
+            navigationManager.Refresh();
         }
     }
 }

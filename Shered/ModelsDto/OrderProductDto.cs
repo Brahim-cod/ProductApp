@@ -11,5 +11,5 @@ public class OrderProductDto
     public int OrderId { get; set; }
     public DateTimeOffset CreatedAt { get; set; }
     public double Amount { get; set; }
-    public ICollection<ProductDto> Products { get; set; }
+    public ICollection<ProductQuantityDto> Products { get; set; }
 }

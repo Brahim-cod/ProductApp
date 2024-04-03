@@ -125,6 +125,13 @@ public class OrderProductService : IOrderProductService
 
         foreach (var orderProduct in orderProducts)
         {
+            // Check if the orderProductDto already added by orderProduct.OrderId
+            var existingOrderProductDto = orderProductDtos.FirstOrDefault(dto => dto.OrderId == orderProduct.OrderId);
+            if (existingOrderProductDto != null)
+            {
+                // If the orderProductDto already exists, continue to the next iteration
+                continue;
+            }
             var product = orderProduct.Product;
 
             var orderProductDto = new OrderProductDto
@@ -133,7 +140,12 @@ public class OrderProductService : IOrderProductService
                 CreatedAt = orderProduct.Order.CreateAt, 
                 Amount = orderProduct.Order.Amount, 
                 Products = orderProducts.Where(op => op.OrderId == orderProduct.OrderId)
-                                        .Select(op => _mapper.Map<ProductDto> (op.Product))
+                                        .Select(op => new ProductQuantityDto()
+                                                    {
+                                                        Product = _mapper.Map<ProductDto>(op.Product),
+                                                        Quantity = op.Quantity
+                                                    }
+                                         )
                                         .ToList()
             };
 
@@ -154,7 +166,7 @@ public class OrderProductService : IOrderProductService
             throw new InvalidOperationException($"No existing order products found for order with ID {orderId}.");
         }
 
-        var updatedProducts = new List<ProductDto>();
+        var updatedProducts = new List<ProductQuantityDto>();
 
         // Iterate through each updated order product
         foreach (var updatedOrderProduct in updatedOrderProducts)
@@ -176,7 +188,7 @@ public class OrderProductService : IOrderProductService
 
             // Update the product quantity by adding the quantity difference
             var updatedProduct = await UpdateProductAsync(product, quantityDifference, SubtractOperation);
-            updatedProducts.Add(updatedProduct);
+            updatedProducts.Add(new ProductQuantityDto { Product = updatedProduct, Quantity = updatedOrderProduct.Quantity });
 
             // Update the order product with the updated quantity
             existingOrderProduct.Quantity = updatedOrderProduct.Quantity;
@@ -187,7 +199,7 @@ public class OrderProductService : IOrderProductService
 
         // Calculate the total amount for the updated order
         var updatedOrder = existingOrderProducts.First().Order;
-        updatedOrder.Amount = CalculateAmount(updatedProducts, updatedOrderProducts);
+        updatedOrder.Amount = CalculateAmount(updatedProducts);
 
         // Save changes to the order and associated products
         await _unitOfWork.CompleteAsync();
@@ -207,22 +219,22 @@ public class OrderProductService : IOrderProductService
         return MapToOrderProductDto(order, products);
     }
 
-    private async Task<IEnumerable<ProductDto>> CollectProductsAsync(IEnumerable<CreateOrderProductDto> orderProducts, Func<int, int, int> operation)
+    private async Task<IEnumerable<ProductQuantityDto>> CollectProductsAsync(IEnumerable<CreateOrderProductDto> orderProducts, Func<int, int, int> operation)
     {
-        var productDtos = new List<ProductDto>();
+        var productDtos = new List<ProductQuantityDto>();
 
         foreach (var orderProduct in orderProducts)
         {
             var productDto = await UpdateProductAsync(orderProduct, operation);
-            productDtos.Add(productDto);
+            productDtos.Add(new ProductQuantityDto { Product = productDto, Quantity = orderProduct.Quantity });
         }
 
         return productDtos;
     }
 
-    private async Task<Order> CreateOrderAsync(IEnumerable<ProductDto> products, IEnumerable<CreateOrderProductDto> createProducts)
+    private async Task<Order> CreateOrderAsync(IEnumerable<ProductQuantityDto> products, IEnumerable<CreateOrderProductDto> createProducts)
     {
-        var amount = CalculateAmount(products, createProducts);
+        var amount = CalculateAmount(products);
         var order = await _unitOfWork.Orders.CreateAsync(new Order { CreateAt = DateTimeOffset.UtcNow, Amount = amount });
         return order;
     }
@@ -280,19 +292,19 @@ public class OrderProductService : IOrderProductService
         return await UpdateProductAsync(product, quantity, operation);
     }
 
-    private double CalculateAmount(IEnumerable<ProductDto> products, IEnumerable<CreateOrderProductDto> createProducts)
+    private double CalculateAmount(IEnumerable<ProductQuantityDto> products)
     {
         double amount = 0;
         products.ForEach(product => { 
-            var price = product.ProductPrice;
-            var quantity = createProducts.FirstOrDefault(p => p.ProductId == product.ProductID).Quantity;
+            var price = product.Product.ProductPrice;
+            var quantity = product.Quantity;
 
             amount += price * quantity;
         });
         return amount;
     }
 
-    private OrderProductDto MapToOrderProductDto(Order order, IEnumerable<ProductDto> products)
+    private OrderProductDto MapToOrderProductDto(Order order, IEnumerable<ProductQuantityDto> products)
     {
         return new OrderProductDto
         {

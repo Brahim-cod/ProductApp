@@ -1,0 +1,52 @@
+﻿@page "/register"
+
+<div class="max-w-4xl mx-auto font-[sans-serif] text-[#333] p-6">
+    <div class="text-center mb-16">
+       <a href="javascript:void(0)">
+            <img src="https://flowbite.com/docs/images/logo.svg" class="w-32 inline-block" alt="Flowbite Logo" />
+       </a>
+       <h4 class="text-base font-semibold mt-3">Sign up into your account</h4>
+    </div>
+    <EditForm Model="@RegisterDto" OnValidSubmit="@HandleValidSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+        <div class="grid sm:grid-cols-2 gap-y-7 gap-x-12">
+            <div>
+                <label class="text-sm mb-2 block">UserName</label>
+                <InputText name="username" @bind-Value="RegisterDto.UserName" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter name" />
+                <ValidationMessage For="@(() => RegisterDto.UserName)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+            <div>
+                <label class="text-sm mb-2 block">Email</label>
+                <InputText name="email" @bind-Value="RegisterDto.Email" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter email" />
+                <ValidationMessage For="@(() => RegisterDto.Email)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+            <div>
+                <label class="text-sm mb-2 block">First Name</label>
+                <InputText name="name" @bind-Value="RegisterDto.FirstName" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter name" />
+                <ValidationMessage For="@(() => RegisterDto.FirstName)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+            <div>
+                <label class="text-sm mb-2 block">Last Name</label>
+                <InputText name="lname" @bind-Value="RegisterDto.LastName" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter last name" />
+                <ValidationMessage For="@(() => RegisterDto.LastName)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+            
+            <div>
+                <label class="text-sm mb-2 block">Password</label>
+                <InputText name="password" type="password" @bind-Value="RegisterDto.Password" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter password" />
+                <ValidationMessage For="@(() => RegisterDto.Password)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+            <div>
+                <label class="text-sm mb-2 block">Confirm Password</label>
+                <InputText name="cpassword" type="password" @bind-Value="RegisterDto.ConfirmPassword" class="bg-gray-100 w-full text-sm px-4 py-3.5 rounded-md outline-blue-500" placeholder="Enter confirm password" />
+                <ValidationMessage For="@(() => RegisterDto.ConfirmPassword)" class="text-red-500 mt-1 text-sm leading-6" />
+            </div>
+        </div>
+        <div class="!mt-10">
+            <button type="submit" class="min-w-[150px] py-3 px-4 text-sm font-semibold rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none">
+                Sign up
+            </button>
+        </div>
+    </EditForm>
+</div>

@@ -40,20 +40,28 @@
                             <div class="flex items-center">
                                 <div class="">
                                     <h2 class="font-semibold text-xl leading-8 text-black mb-3">
-                                        @item.ProductName
+                                        @item.Product.ProductName
                                     </h2>
                                     <p class="font-normal text-lg leading-8 text-gray-500 mb-3 ">
-                                        @item.ProductCategoryName
+                                        @item.Product.ProductCategoryName
                                     </p>
+
+                                        <div class="flex items-center ">
+                                            
+                                            <p class="font-medium text-base leading-7 text-black ">
+                                                Qty: <span class="text-gray-500">@item.Quantity</span>
+                                            </p>
+                                        </div>
                                     
                                 </div>
+
 
                             </div>
                             <div class="grid grid-cols-5">
                                 <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
                                     <div class="flex gap-3 lg:block">
                                         <p class="font-medium text-sm leading-7 text-black">price</p>
-                                        <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">@Math.Round(item.ProductPrice, 2)</p>
+                                        <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">@Math.Round(item.Product.ProductPrice, 2)</p>
                                     </div>
                                 </div>
                                 <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3 ">

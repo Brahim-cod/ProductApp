@@ -65,7 +65,7 @@ public class UserService : IUserService
         {
             var userJson = new StringContent(JsonSerializer.Serialize(user), Encoding.UTF8, "application/json");
 
-            var response = await _http.PostAsync("api/user/register", userJson);
+            var response = await _http.PostAsync("api/Account/register", userJson);
             if (!response.IsSuccessStatusCode)
             {
                 return null;
@@ -73,6 +73,11 @@ public class UserService : IUserService
 
             var resBody = await response.Content.ReadAsStreamAsync();
             var userRes = await JsonSerializer.DeserializeAsync<UserDto>(resBody, _serializerOptions);
+
+            await JSRuntime.InvokeVoidAsync("localStorage.setItem", AUTHKEY, userRes.Token);
+
+            ((AuthStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(userRes.Email);
+            _http.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", userRes.Token);
             return userRes;
         }
         catch (Exception e)

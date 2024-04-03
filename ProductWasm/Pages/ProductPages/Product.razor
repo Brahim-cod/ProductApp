@@ -43,6 +43,7 @@
                             <label for="ProductDescription" class="block text-sm font-medium leading-6 text-gray-900">Product Description</label>
                             <div class="mt-2">
                                 <InputTextArea id="ProductDescription" name="ProductDescription" @bind-Value="@productDto.ProductDescription" rows="3" class="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <ValidationMessage For="@(() => productDto.ProductDescription)" class="text-red-500 mt-1 text-sm leading-6" />
                             </div>
                             <p class="mt-3 text-sm leading-6 text-gray-600">Write a few sentences about product description.</p>
                         </div>
@@ -51,6 +52,7 @@
                             <label for="ProductPrice" class="block text-sm font-medium leading-6 text-gray-900">Product Price</label>
                             <div class="mt-2">
                                 <InputNumber name="ProductPrice" id="ProductPrice" @bind-Value="@productDto.ProductPrice" class="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <ValidationMessage For="@(() => productDto.ProductPrice)" class="text-red-500 mt-1 text-sm leading-6" />
                             </div>
                         </div>
 
@@ -58,6 +60,7 @@
                             <label for="ProductQuantity" class="block text-sm font-medium leading-6 text-gray-900">Product Quantity</label>
                             <div class="mt-2">
                                 <InputNumber name="ProductQuantity" id="ProductQuantity" @bind-Value="@productDto.ProductQuantity" class="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <ValidationMessage For="@(() => productDto.ProductQuantity)" class="text-red-500 mt-1 text-sm leading-6" />
                             </div>
                         </div>
 
@@ -84,6 +87,7 @@
                             <label for="ProductImage" class="block text-sm font-medium leading-6 text-gray-900">Product ImageUrl</label>
                             <div class="mt-2">
                                 <InputText name="ProductImage" id="ProductImage" @bind-Value="@productDto.ProductImage" class="p-3 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                <ValidationMessage For="@(() => productDto.ProductImage)" class="text-red-500 mt-1 text-sm leading-6" />
                             </div>
                         </div>
 
@@ -97,6 +101,7 @@
                                         <option value="@category.Id">@category.Name</option>
                                     }
                                 </select>
+                                <ValidationMessage For="@(() => productDto.ProductCategoryID)" class="text-red-500 mt-1 text-sm leading-6" />
                             </div>
                         </div>
                         
